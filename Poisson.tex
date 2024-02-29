@@ -1,0 +1,20 @@
+\section{Poisson Distribution}
+
+The main challenge of this exercise is to find a method to calculate the 
+poisson distribution for sufficiently high values of \lambda and k, without 
+exceeding the range of a 32-bit floating point number.
+I found two methods to do so. The first revolves around itteratively applying
+the $\lambda^k$ multiplication and $k!$ division. The second operates in
+log-space, and therefore performs operations on far smaller numbers.
+It turned out that the second approach is a factor 2 faster over the set of
+values for \lambda and k provided.
+
+\lstinputlisting[caption=Time time it takes to perform exercise 1a using the two approaches, averaged over 1000 runs]{poisson_timing.txt}
+
+This yielded the following values:\\
+\lstinputlisting{poisson.txt}
+
+Code used for this question:
+\lstinputlisting{poisson.py}
+
+

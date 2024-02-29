@@ -1,0 +1,93 @@
+\section{Vandermonde Matrix}
+For this exercise, I implemented a function to solve a system of linear equations
+using LU decomposition. This was then applied to the Vandermonde matrix to
+find a 19th degree Lagrange polynomial for a sample dataset.
+
+\subsection*{2a}
+See Figure \ref{fig:vandermonde}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{vandermonde.png}
+    \caption{The 19th degree Lagrange polynomial (evaluated for 1000 points 
+    between highest- and lowest x-values in the data) and the datapoints it 
+    was fitted to. The black text indicates the absolute value of the 
+    deviation of the polynomial to the datapoints.}
+    \label{fig:vandermonde}
+\end{figure}
+
+This is the code used for this exercise:
+\lstinputlisting[language=python,firstline=1, lastline=103]{vandermonde.py}
+
+\subsection*{2b}
+The polynomial found using Neville's algorithm deviates significantly
+from the one found in (2a) in a number of places (see Figure \ref{fig:neville}). 
+On the intervals where the LU decomposition polynomial is well behaved, the 
+Neville polynomial is well behaved as well. In places where the LU 
+decomposition polynomial finds values far higher or lower than the 
+datapoints around the interval, the Neville polynomial does worse in two 
+cases and better in two others. This difference is due to the way these 
+algorithms handle the edge cases, where there are not enough datapoints to 
+do find a genuine 19th degree polynomial.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{neville_compare.png}
+    \caption{Comparison between the 19th degree Lagrange polynomial found
+    using Neville's algorithm and the one found using LU decomposition. The 
+    19th degree Lagrange polynomial was evaluated for 1000 points between 
+    highest- and lowest x-values in the data and plotted with the datapoints 
+    it was fitted to. The black text indicates the absolute value of the 
+    deviation of the Neville polynomial to the datapoints.}
+    \label{fig:neville}
+\end{figure}
+
+This is the code used for this exercise:
+\lstinputlisting[language=python, firstline=106, lastline=212]{vandermonde.py}
+
+\subsection*{2c}
+In this exercise, we itterate on the LU decomposition done in (2a) to improve
+the solution. This is done by solving the system for the error found in the
+previous itteration. This allows us to improve the solution as, if $c=c'+\delta c$,
+then $(A\.c)=(A\.c')+(A\.\delta c)$.
+Figures \ref{fig:lu_itt} and \ref{fig:lu_itt_zoom} shows the result of this itterative improvement, with
+snapshots at 1 and 10 itterations.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{vandermonde_itt.png}
+    \caption{The 19th degree Lagrange polynomial derived using LU 
+    decomposition (left) and itterative improvents thereon, 1 and 10 
+    itterations in the center and on the right resp. (evaluated for 1000 
+    points between highest- and lowest x-values in the data). This was 
+    plotted with the datapoints it was fitted to. The black text indicates 
+    the absolute value of the deviation of the polynomial to the datapoints.}
+    \label{fig:lu_itt}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{vandermonde_itt_zoom.png}
+    \caption{The 19th degree Lagrange polynomial derived using LU 
+    decomposition (left) and itterative improvents thereon, 1 and 10 
+    itterations in the center and on the right resp. (evaluated for 1000 
+    points between highest- and lowest x-values in the data). This was 
+    plotted with the datapoints it was fitted to. The black text indicates 
+    the absolute value of the deviation of the polynomial to the datapoints.}
+    \label{fig:lu_itt_zoom}
+\end{figure}
+
+\subsection*{2d}
+For this question we compare the time it takes to generate the polynomials
+discussed in (2a)-(2c). When averaging over 10 runs we get the following:
+
+\lstinputlisting{vandermonde_timing.txt}
+
+This shows that this implementation of Crout's algorithm and solving using
+LU decomposition is faster than this implementation of Neville's algorithm.
+Furthermore, it shows how much faster the itterative improvement is 
+to the first solution. This is because the LU decomposition only has to be
+performed once, suggesting that this operation is the bottleneck of the 
+algorithm.
+
+This is the code used in this exercise:
+\lstinputlisting[language=python]{vandermonde.py}
