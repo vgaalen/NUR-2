@@ -1,0 +1,17 @@
+\chapter{Satellite Galaxies Around a Missive Central}
+
+\subsection{}
+Write a numberical integrator based on some form of Richardson
+extrapolation to solve equation (2) for A given those four parameters. Output A to full precision.
+Hint: First think about what dV is for a spherical integral!
+\\
+\begin{align}
+    \int \int \int _V n(x) dV = \left< N_sat \right>\\
+    \left< N_sat \right> &= \int \int \int _V A \left< N_sat \right> \left( \frac{x}{b} \right)^{a-3} exp\left[-\left(\frac{x}{b}\right)^c\right] dV \\
+    1 / A &= \int \int \int _V \left( \frac{x}{b} \right)^{a-3} exp\left[-\left(\frac{x}{b}\right)^c\right] dV \\
+    &= \int_0^{r_{max}} 4 \pi r^2 \left( \frac{r}{b} \right)^{a-3} exp\left[-\left(\frac{r}{b}\right)^c\right] dr \\
+    &= \int_0^{r_{max}} 4 \pi r^{a-1} b^{3-a} exp\left[-\left(\frac{r}{b}\right)^c\right] dr \\
+\end{align}
+
+Solving this using Romburg integration, we get the following value for A:
+\lstinputlisting{1a.txt}

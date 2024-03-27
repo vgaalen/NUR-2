@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Run handin template"
+echo "Run handin 2"
 
 echo "Creating the plotting directory if it does not exist"
 if [ ! -d "plots" ]; then
@@ -8,16 +8,16 @@ if [ ! -d "plots" ]; then
   mkdir plots
 fi
 
-echo "Downloading Dataset"
-if [ ! -e Vandermonde.txt ]; then
-  wget home.strw.leidenuniv.nl/~daalen/Handin_files/Vandermonde.txt
-fi
+# echo "Downloading Dataset"
+# if [ ! -e Vandermonde.txt ]; then
+#   wget home.strw.leidenuniv.nl/~daalen/Handin_files/Vandermonde.txt
+# fi
 
-echo "Run the script for 1a"
-python3 Poisson.py
+# echo "Run the script for 1a"
+# python3 Poisson.py
 
-echo "Run the script for 2"
-python3 vandermonde.py
+# echo "Run the script for 2"
+# python3 vandermonde.py
 
 
 
@@ -26,9 +26,9 @@ python3 vandermonde.py
 
 echo "Generating the pdf"
 
-pdflatex template.tex
-bibtex template.aux
-pdflatex template.tex
-pdflatex template.tex
+pdflatex NUR-2.tex
+#bibtex template.aux
+#pdflatex template.tex
+#pdflatex template.tex
 
 
