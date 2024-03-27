@@ -1,0 +1,3 @@
+Equilibrium temperature for n_e = 1.00e-04 cm^-3: 160647887522255.34 K
+Equilibrium temperature for n_e = 1.00e+00 cm^-3: 33861.30023782565 K
+Equilibrium temperature for n_e = 1.00e+04 cm^-3: 10525.886020154045 K

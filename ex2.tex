@@ -1,0 +1,66 @@
+\section{Heating and cooling in HII regions}
+
+\subsection{}
+HII regions are in equilibrium, but there are still a number of processes ongoing.
+Two of these are photoionization and radiative recombination.
+As one is a heating process and the other a cooling, they can keep each other in equilibrium.
+This is the case when the heating rate is equal to the cooling rate.
+We can find the temperature at which this occurs by minimizing the absolute value of the difference between the heating and cooling rates.
+As the photoionization rate is given by:
+
+\begin{align}
+    \Gamma_{pe} = \alpha_B n_H n_e \psi k_B T_c
+\end{align}
+where $\alpha_B$ is the recombination coefficient, $n_H$ is the number density of hydrogen, $n_e$ is the number density of electrons, 
+$k_B$ is the Boltzmann constant, and $T_c$ is the temperature of the gas.
+\\
+and the radiative recombination rate is given by:
+
+\begin{align}
+    \Lambda_{rr} = \alpha_B n_H n_e \left< E_{rr} \right>
+\end{align}
+
+with:
+
+\begin{align}
+    \left< E_{rr} \right> = \left[ 0.684 - 0.0416 ln\left( \frac{T_4}{Z^2} \right) \right] k_B T
+\end{align}
+where $T_4$ is the temperature in units of $10^4$ K and $Z$ is the metallicity (which we assume to be the solar metallicity $Z=0.015$).
+
+These combine to:
+\begin{align}
+    \Delta E_{net} = \psi T_c k_B - \left[ 0.684 - 0.0416 * ln\left( \frac{T_4}{Z^2} \right) \right] T k_B
+\end{align}
+
+By minimizing $| \Delta E_{net} |$ using Brent's method we find an equilibrium temperature of:
+\lstinputlisting{2a.txt}
+
+code used for this subsection:
+\lstinputlisting{ex2.py}[language=Python,firstline=1,lastline=2]
+
+\subsection{}
+Only including photoionization and radiative recombination is not a very realistic configuration, though.
+Therefore we will now also include heating by cosmic rays ($\Gamma_{CR}$) and MHD waves ($\Gamma_{MHD}$) and cooling by free-free emission ($\Lambda_FF$).
+These follow the expressions:
+\begin{align} 
+    \Lambda_{FF} &= 0.54 T^{0.37}_4 \alpha_B n_e n_H k_B T \\
+    \Gamma_{CR} &= A n_e \xi_{CR} \\
+    \Gamma_{MHD} &= 8.9\dot10^{-26} n_H T_4\\
+\end{align}
+
+Combining these with photoionization and radiative recombination, we get:
+\begin{align}
+    \Delta E_{net} = \left[ \psi T_c - \left[ 0.684 - 0.0416 * ln\left( \frac{T_4}{Z^2} \right)\right] T - 0.54 * T_4^{0.37} T\right] k_B n_H \alpha_B + A \xi + 8.9\dot10^{-26} T_4
+\end{align}
+
+By minimizing $| \Delta E_{net} |$ using Brent's method we find an equilibrium temperature of:
+\lstinputlisting{2b.txt}
+
+Here we see that the equilibrium temperature decreases for higher electron densities.
+This can be explained by noticing that $\Gamma_{pe}$, $\Lambda_{rr}$, and $\Lambda_{FF}$ all depend on $n_e^2$ 
+(in HII regions most of the gas is ionized, therefore $n_e \approx n_H$), while $\Gamma_{CR}$ and $\Gamma_{MHD}$ only depend on $n_e$.
+As $\Gamma_{CR}$ and $\Gamma_{MHD}$ are both heating processes, the cooling rate will increase faster with $n_e$ than the heating rate.
+This leads to the equilibrium temperature decreasing with increasing electron density.
+
+code used for this subsection:
+\lstinputlisting{ex2.py}[language=Python,firstline=1,lastline=2]
