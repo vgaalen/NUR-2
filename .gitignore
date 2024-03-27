@@ -1,0 +1,14 @@
+# Figures
+*.pdf
+*.png
+*.svd
+
+# Latex Files
+*.aux
+*.log
+*.out
+*.pdf
+
+# Folders
+ccache/*
+plots/*

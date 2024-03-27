@@ -159,7 +159,7 @@ hist = np.histogram(np.sort(r), bins=edges)[0] #replace!
 relative_radius = edges[:-1] + np.diff(edges)/2
 #analytical_function = spherical_integral_n(relative_radius, A, Nsat, a, b, c) #replace
 
-analytical_function = [Romberg_integration(spherical_integral_n,low_bound,high_bound,A,Nsat,a,b,c) for low_bound, high_bound in zip(edges[:-1], edges[1:])]
+analytical_function = [Romberg_integration(spherical_integral_n,low_bound,high_bound,A,Nsat,a,b,c)/(high_bound-low_bound) for low_bound, high_bound in zip(edges[:-1], edges[1:])]
 #/(high_bound-low_bound)
 print(relative_radius)
 print(analytical_function)
@@ -167,12 +167,12 @@ print("Max Analytical function: ", np.max(analytical_function))
 
 
 fig1b, ax = plt.subplots()
-ax.stairs(hist*np.diff(edges) * Nsat/N_generate, edges=edges, fill=True, label='Satellite galaxies')
+ax.stairs(hist/np.diff(edges), edges=edges, fill=True, label='Satellite galaxies')
 plt.plot(relative_radius, analytical_function, 'r-', label='Analytical solution') #correct this according to the exercise!
 ax.set(xlim=(xmin, xmax), ylim=(10**(-3), 100), yscale='log', xscale='log',
        xlabel='Relative radius', ylabel='Number of galaxies')
 ax.legend()
-plt.savefig('my_solution_1b.png', dpi=600)
+plt.savefig('plots/my_solution_1b.png', dpi=600)
 
 # Select 100 random galaxies from the previous sample
 def select(set, rng):
@@ -195,6 +195,6 @@ ax.plot(chosen, np.arange(100))
 ax.set(xscale='log', xlabel='Relative radius', 
        ylabel='Cumulative number of galaxies',
        xlim=(xmin, xmax), ylim=(0, 100))
-plt.savefig('my_solution_1c.png', dpi=600)
+plt.savefig('plots/my_solution_1c.png', dpi=600)
 
 

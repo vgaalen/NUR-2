@@ -13,8 +13,10 @@ fi
 #   wget home.strw.leidenuniv.nl/~daalen/Handin_files/Vandermonde.txt
 # fi
 
-# echo "Run the script for 1a"
-# python3 Poisson.py
+if [ ! -e 1a.txt ] || [ ! -e plots/my_solution_1c.png ] || [ ! -e plots/my_solution_1b.png ]; then
+  echo "Run the script for 1"
+  python3 ex1.py
+fi
 
 # echo "Run the script for 2"
 # python3 vandermonde.py
