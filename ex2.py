@@ -102,15 +102,15 @@ import matplotlib.pyplot as plt
 plt.figure()
 plt.plot(x, np.abs(equilibrium1(x, 0.015, 1e4, 0.929)), label='Z=1, Tc=1, psi=1')
 plt.xscale('log')
-plt.savefig('plots/ex2a.png')
+plt.savefig('plots/2a.png')
 
 T_equilibrium = Brent_method(lambda x: np.abs(equilibrium1(x, 0.015, 1e4, 0.929)), 1, 1e7)
 print(f"Equilibrium temperature: {T_equilibrium:.2e} K")
-with open('ex2a.txt', 'w') as f:
+with open('output/2a.txt', 'w') as f:
     f.write(f"Equilibrium temperature: {T_equilibrium} K")
 
 # 2b
-with open('ex2b.txt', 'w') as f:
+with open('output/2b.txt', 'w') as f:
     for n_e in [1e-4, 1, 1e4]:
         T_equilibrium2 = Brent_method(lambda x: np.abs(equilibrium2(x, 0.015, 1e4, 0.929, n_e, 5e-10, 1e-15)), 1, 1e15, rtol=1e-10, atol=1e-50)
         print(f"Equilibrium temperature for n_e = {n_e:.2e} cm^-3: {T_equilibrium2} K")
@@ -130,4 +130,4 @@ ax[0].set_yscale('log')
 ax[1].set_yscale('log')
 ax[0].legend()
 ax[1].legend()
-fig.savefig('ex2b.png')
+fig.savefig('plots/2b.png')

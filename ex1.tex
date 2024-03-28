@@ -15,7 +15,7 @@ Hint: First think about what dV is for a spherical integral!
 \end{align}
 
 Solving this using Romburg integration, we get the following value for A:
-\lstinputlisting{1a.txt}
+\lstinputlisting{output/1a.txt}
 \noindent
 Code used for this subquestion:
 \lstinputlisting{ex1.py}[firstline=1, lastline=56]
@@ -98,7 +98,7 @@ Below the output of this is compared to the following analytical derivative:
     \\frac{d n}{d x} = \fraq{A N_sat}{b} \left( \frac{x}{b} \right)^(a-4) e^{-(x/b)^c} \left[ -c \left( \frac{x}{b} \right)^c + a-3 \right]
 \end{align}
 
-\lstinputlisting{1d.txt}
+\lstinputlisting{output/1d.txt}
 This method seems to work quite well as I was able the deviation from the analytical solution down to the order of $10^{-12}$.
 
 Code used for this subquestion:

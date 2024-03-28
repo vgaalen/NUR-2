@@ -4,33 +4,30 @@ echo "Run handin 2"
 
 echo "Creating the plotting directory if it does not exist"
 if [ ! -d "plots" ]; then
-  echo "Directory does not exist create it!"
+  echo "Creating Plotting Directory!"
   mkdir plots
 fi
 
-# echo "Downloading Dataset"
-# if [ ! -e Vandermonde.txt ]; then
-#   wget home.strw.leidenuniv.nl/~daalen/Handin_files/Vandermonde.txt
-# fi
+echo "Creating the output directory if it does not exist"
+if [ ! -d "output" ]; then
+  echo "Creating Output Directory!"
+  mkdir output
+fi
 
 if [ ! -e 1a.txt ] || [ ! -e plots/my_solution_1c.png ] || [ ! -e plots/my_solution_1b.png ]; then
   echo "Run the script for 1"
   python3 ex1.py
 fi
 
-# echo "Run the script for 2"
-# python3 vandermonde.py
-
-
-
-# code that makes a movie of the movie frames
-#ffmpeg -framerate 25 -pattern_type glob -i "plots/snap*.png" -s:v 640x480 -c:v libx264 -profile:v high -level 4.0 -crf 10 -tune animation -preset slow -pix_fmt yuv420p -r 25 -threads 0 -f mp4 sinemovie.mp4
+if [ ! -e 2a.txt ] || [ ! -e 2b.txt ] || [ ! -e plots/2a.png ] || [ ! -e plots/2b.png]; then
+  echo "Run the script for 2"
+  python3 ex2.py
+fi
 
 echo "Generating the pdf"
-
-pdflatex NUR-2.tex
-#bibtex template.aux
-#pdflatex template.tex
-#pdflatex template.tex
+pdflatex NUR-2.tex > latex_output1.txt
+#bibtex template.aux > bibtex_output.txt
+#pdflatex template.tex > latex_output2.txt
+#pdflatex template.tex > latex_output3.txt
 
 

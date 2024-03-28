@@ -51,7 +51,7 @@ c=1.6
 print(f"Integral of n(x): {Romberg_integration(spherical_integral_n,0,5,A,Nsat,a,b,c)}")
 A = A*Nsat / (Romberg_integration(spherical_integral_n,0,5,A,Nsat,a,b,c))
 print(f"Normalization Factor A: {A}")
-with open('1a.txt', 'w') as f:
+with open('output/1a.txt', 'w') as f:
     f.write(f'{A}\n')
 print(f"Integral of n(x): {Romberg_integration(spherical_integral_n,0,5,A,Nsat,a,b,c)}")
 
@@ -287,7 +287,7 @@ print("Numerical derivative: ", numerical_derivative)
 print("Analytical derivative: ", analytical_derivative)
 print("Difference: ", np.abs(numerical_derivative-analytical_derivative))
 
-with open('1d.txt', 'w') as f:
+with open('output/1d.txt', 'w') as f:
     f.write(f'Numerical Derivative (Ridder\'s Method): {numerical_derivative}\n')
     f.write(f'Analytical Derivative: {analytical_derivative}\n')
     f.write(f'Difference between these: {np.abs(numerical_derivative-analytical_derivative)}\n')
