@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import warnings
 def Romberg_integration(f,a,b,*args,m=5,h=1):
     """
     Implementation of Romberg Integration.
@@ -52,7 +52,7 @@ print(f"Integral of n(x): {Romberg_integration(spherical_integral_n,0,5,A,Nsat,a
 A = A*Nsat / (Romberg_integration(spherical_integral_n,0,5,A,Nsat,a,b,c))
 print(f"Normalization Factor A: {A}")
 with open('output/1a.txt', 'w') as f:
-    f.write(f'{A}\n')
+    f.write(f'A = {A}\n')
 print(f"Integral of n(x): {Romberg_integration(spherical_integral_n,0,5,A,Nsat,a,b,c)}")
 
 
@@ -68,8 +68,7 @@ class RNG():
 
         self.a = np.uint64(1664525)
         self.c = np.uint64(1013904223)
-        #self.a = np.uint64(5478)
-        #self.c = np.uint64(13912)
+        
     
     def __call__(self, shape=None):
         """
@@ -98,8 +97,9 @@ class RNG():
         """
         Implementation of Linear Congruential Generator
         """
-        x = (self.a*seed + self.c) % 2**64
-        return x
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", message="overflow encountered in scalar multiply")
+            return (self.a*seed + self.c)
 
 def transformation_function(x):#, A, Nsat, a, b, c):
     """
@@ -288,6 +288,6 @@ print("Analytical derivative: ", analytical_derivative)
 print("Difference: ", np.abs(numerical_derivative-analytical_derivative))
 
 with open('output/1d.txt', 'w') as f:
-    f.write(f'Numerical Derivative (Ridder\'s Method): {numerical_derivative}\n')
+    f.write(f'Numerical Derivative (Ridders Method): {numerical_derivative}\n')
     f.write(f'Analytical Derivative: {analytical_derivative}\n')
     f.write(f'Difference between these: {np.abs(numerical_derivative-analytical_derivative)}\n')

@@ -97,17 +97,12 @@ def parabola_min(f, x0, x1, x2):
 
 # 2a
 # Minimization of photoionization-ratidative recombination to find equilibrium temperature
-x = np.logspace(0, 7, 200)
-import matplotlib.pyplot as plt
-plt.figure()
-plt.plot(x, np.abs(equilibrium1(x, 0.015, 1e4, 0.929)), label='Z=1, Tc=1, psi=1')
-plt.xscale('log')
-plt.savefig('plots/2a.png')
-
 T_equilibrium = Brent_method(lambda x: np.abs(equilibrium1(x, 0.015, 1e4, 0.929)), 1, 1e7)
 print(f"Equilibrium temperature: {T_equilibrium:.2e} K")
 with open('output/2a.txt', 'w') as f:
     f.write(f"Equilibrium temperature: {T_equilibrium} K")
+
+
 
 # 2b
 with open('output/2b.txt', 'w') as f:

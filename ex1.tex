@@ -1,10 +1,8 @@
 \section{Satellite Galaxies Around a Missive Central}
 
 \subsection{}
-Write a numberical integrator based on some form of Richardson
-extrapolation to solve equation (2) for A given those four parameters. Output A to full precision.
-Hint: First think about what dV is for a spherical integral!
-\\
+Here I selected Romberg integration to solve the integral as it is a Richardson numerical integrator I was already familiar with.
+First we work out the integral over $n(x)$:
 \begin{align}
     \int \int \int _V n(x) dV = \left< N_{sat} \right>\\
     \left< N_{sat} \right> &= \int \int \int _V A \left< N_{sat} \right> \left( \frac{x}{b} \right)^{a-3} exp\left[-\left(\frac{x}{b}\right)^c\right] dV \\
@@ -14,59 +12,59 @@ Hint: First think about what dV is for a spherical integral!
     &= \int_0^{r_{max}} 4 \pi r^{a-1} b^{3-a} exp\left[-\left(\frac{r}{b}\right)^c\right] dr \\
 \end{align}
 
-Solving this using Romburg integration, we get the following value for A:
+Solving this using Romberg integration with $r_{max}=5$, gives the following value for A:
 \lstinputlisting{output/1a.txt}
 \noindent
 Code used for this subquestion:
-\lstinputlisting{ex1.py}[firstline=1, lastline=56]
+\lstinputlisting[language=Python,firstline=1, lastline=56]{ex1.py}
 
 
 \subsection{}
-Here I used a XOR shift RNG feeding into a MLCG RNG to generate random numbers between 0 and 1.
+Here I used a XOR shift RNG feeding into a LCG RNG to generate random numbers between 0 and 1.
 From this RNG I took 30.000 samples to use for random positions for 10.000 satellite galaxies in 3 dimensions.
-Transforming the uniform distribution to the given density profile difficult as the CDF of the satellite number density is not easily invertible.
-Therefore rejection sampling was used here.
+Transforming the uniform distribution to the given density profile proved to be difficult as the CDF of the satellite number density is not easily invertible.
+Therefore I used rejection sampling here.
 Figure \ref{fig:1b} shows that the distribution of satellite galaxies is in agreement with the analytical function.
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{plots/my_solution_1b.png}
-    \caption{The distribution of satellite galaxies compared to the analytical function.}
+    \caption{The distribution of satellite galaxies compared to the analytical function (indicated by the red line).}
     \label{fig:1b}
 \end{figure}
 
-
 As the number density is only a function of distance to the central galaxy, this is only necessary for the radial dimension.
-As a uniform distribution over all points with the same r, is not the same as a uniform distribution along dimensions $\phi$ and $\theta$ we need still need to transform
-the distribution along at least one of these dimensions.
-For $\theta$ we will choose a uniform distribution: $\theta = 2 \pi U(0,1)$ (where $U(0,1)$ represents a RNG sampling on a uniform distribution).
-As $p(\theta,\phi)d\theta d\phi = \frac{sin \phi}{4 \pi} d\phi d\theta$,
+But as a uniform distribution along the shell with radius r is not the same as a uniform distribution along the $\phi$ and $\theta$ dimensions, we need still need 
+to transform the distribution along at least one of these dimensions.
+
+For $\theta$ we will choose a uniform distribution: $\theta = 2 \pi U(0,1)$ (where $U(0,1)$ represents an RNG sample in an uniform distribution between 0 and 1).
+As $p(\theta,\phi)d\theta d\phi = \frac{sin \phi}{4 \pi} d\phi d\theta$ (as seen in Tutorial 5),
 this choice results in $p(\phi) = \frac{sin \phi}{2}$.
 The resulting CDF is $P(\phi) = \int_0^{\phi} \frac{sin \phi}{2} d\phi = \frac{1-cos \phi}{2}$.
 As this function is easily invertible we will use the transformation method here:
 $P^{-1}(\phi) = arccos(1-2\phi)$.
 As shown in figure \ref{fig:phi} this results in the desired sinusoidal distribution.
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{plots/phi.png}
-    \caption{The distribution the phi coordinates compared to the desired distribution.}
+    \caption{The distribution the phi coordinates compared to the desired distribution (indicated by the red line).}
     \label{fig:phi}
 \end{figure}
 
-For completeness (and as a pure test of the RNG) we will check if the distribution of the $\theta$ coordinates is uniform.
+For completeness (and as a simple test of the RNG) we will check if the distribution of the $\theta$ coordinates is uniform.
 Figure \ref{fig:theta} shows the distibution along with a line at $\frac{N_{generated}}{N_{bins}}$.
 This is not a real test of randomness, but does snow that we get a uniform distribution.
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{plots/theta.png}
-    \caption{The distribution the theta coordinates compared to the desired distribution.}
+    \caption{The distribution the theta coordinates compared to the desired distribution (indicated by the red line).}
     \label{fig:theta}
 \end{figure}
 
 Code used for this subquestion:
-\lstinputlisting{ex1.py}[firstline=60, lastline=179]
+\lstinputlisting[language=Python,firstline=60, lastline=179]{ex1.py}
 
 \subsection{}
-In order to adhere to all three of the rules
+If I need to adhere to all three of these rules:
 
 \begin{enumerate}
     \item select every galaxy with equal probability;
@@ -75,13 +73,13 @@ In order to adhere to all three of the rules
 \end{enumerate}
 
 the simplest approach seems to shuffle the list of galaxies and then draw the first 100.
-Here I shuffled the list using a set of random numbers generated by the RNG from the previous question, which I sorted and during this sorting the same entry swaps
+Here I shuffled the list using a set of random numbers generated by the RNG from the previous question, which I sorted and during this sorting the same swaps
 were applied to the list of galaxies.
 As it is not necessary here to sort the whole list, I opted to use selection sort as this algorithm allows you to sort only the first 100 entries with minimal changes.
 
 Figure \ref{fig:1c} shows the cumulative number of galaxies over the relative radius for this subset. When we compare this to figure \ref{fig:1b} we can conclude that
 they follow the same distribution, which tells us that the subsample taken can draw every galaxy with equal probability.
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{plots/my_solution_1c.png}
     \caption{The Cumulative number of galaxies over the relative radius using the subsample of 100 galaxies.}
@@ -89,17 +87,17 @@ they follow the same distribution, which tells us that the subsample taken can d
 \end{figure}
 
 Code used for this subquestion:
-\lstinputlisting{ex1.py}[firstline=183, lastline=220]
+\lstinputlisting[language=Python,firstline=183, lastline=220]{ex1.py}
 
 \subsection{}
 Here I calculated the numerical derivative using an implementation of Ridder's Method.
 Below the output of this is compared to the following analytical derivative:
 \begin{align}
-    \\frac{d n}{d x} = \fraq{A N_sat}{b} \left( \frac{x}{b} \right)^(a-4) e^{-(x/b)^c} \left[ -c \left( \frac{x}{b} \right)^c + a-3 \right]
+    \frac{d n}{d x} = \frac{A N_{sat}}{b} \left( \frac{x}{b} \right)^{a-4} e^{-(x/b)^c} \left[ -c \left( \frac{x}{b} \right)^c + a-3 \right]
 \end{align}
 
 \lstinputlisting{output/1d.txt}
 This method seems to work quite well as I was able the deviation from the analytical solution down to the order of $10^{-12}$.
 
 Code used for this subquestion:
-\lstinputlisting{ex1.py}[firstline=224]
+\lstinputlisting[language=Python,firstline=224]{ex1.py}
