@@ -1,3 +1,0 @@
-Numerical Derivative (Ridder's Method): -0.5538995061748816
-Analytical Derivative: -0.5538995061770879
-Difference between these: 2.2063462168375736e-12
