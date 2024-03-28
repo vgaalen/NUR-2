@@ -8,24 +8,8 @@ aB = 2e-13 # cm^3 / s
 def equilibrium1(T,Z,Tc,psi):
     return psi*Tc*k - (0.684 - 0.0416 * np.log(T/(1e4 * Z*Z)))*T*k
 
-
 def equilibrium2(T,Z,Tc,psi, nH, A, xi):
     return (psi*Tc - (0.684 - 0.0416 * np.log(T/(1e4 * Z*Z)))*T - .54 * ( T/1e4 )**.37 * T)*k*nH*aB + A*xi + 8.9e-26 * (T/1e4)
-
-
-########
-## 2a ##
-########
-# Minimization of photoionization-ratidative recombination to find equilibrium temperature
-
-x = np.logspace(0, 7, 200)
-#x = np.linspace(0.9e7,2e7,100)
-import matplotlib.pyplot as plt
-plt.figure()
-plt.plot(x, np.abs(equilibrium1(x, 0.015, 1e4, 0.929)), label='Z=1, Tc=1, psi=1')
-plt.xscale('log')
-#plt.yscale('log')
-plt.savefig('ex2a.png')
 
 def Brent_method(f, a, c, rtol=1e-5, atol=1e-8, maxiter=1000):
     """
@@ -111,19 +95,26 @@ def parabola_min(f, x0, x1, x2):
     return -b/(2*a)
 
 
+# 2a
+# Minimization of photoionization-ratidative recombination to find equilibrium temperature
+x = np.logspace(0, 7, 200)
+import matplotlib.pyplot as plt
+plt.figure()
+plt.plot(x, np.abs(equilibrium1(x, 0.015, 1e4, 0.929)), label='Z=1, Tc=1, psi=1')
+plt.xscale('log')
+plt.savefig('plots/ex2a.png')
 
 T_equilibrium = Brent_method(lambda x: np.abs(equilibrium1(x, 0.015, 1e4, 0.929)), 1, 1e7)
 print(f"Equilibrium temperature: {T_equilibrium:.2e} K")
 with open('ex2a.txt', 'w') as f:
     f.write(f"Equilibrium temperature: {T_equilibrium} K")
 
-print("2b")
+# 2b
 with open('ex2b.txt', 'w') as f:
     for n_e in [1e-4, 1, 1e4]:
         T_equilibrium2 = Brent_method(lambda x: np.abs(equilibrium2(x, 0.015, 1e4, 0.929, n_e, 5e-10, 1e-15)), 1, 1e15, rtol=1e-10, atol=1e-50)
         print(f"Equilibrium temperature for n_e = {n_e:.2e} cm^-3: {T_equilibrium2} K")
         f.write(f"Equilibrium temperature for n_e = {n_e:.2e} cm^-3: {T_equilibrium2} K\n")
-    #,Z,Tc,psi, nH, A, xi
 
 x = np.logspace(1,15,100)
 import matplotlib.pyplot as plt
